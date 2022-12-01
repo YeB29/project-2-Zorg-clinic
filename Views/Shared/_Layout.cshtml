@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <partial name="_CSS" />
+</head>
+
+<body>
+    <div class="load"></div>
+
+    <partial name="_Header" />
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <div class="accessibility" tabindex="1">
+        <input type="checkbox" class="d-none" id="accessibilitySwitch">
+        <label class="accessibility-label" for="accessibilitySwitch" aria-label="Toegankelijkheid">
+            <span class="material-icons-round" title="Klik hier om toegankelijkheid in te schakelen." aria-hidden="true">accessibility</span>
+        </label>
+    </div>
+
+    <partial name="_Footer" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/accessibility.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

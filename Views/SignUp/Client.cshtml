@@ -1,0 +1,124 @@
+@model IEnumerable<Subject>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@{
+    ViewData["Title"] = "Aanmelden";
+}
+
+<div class="container page">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col">
+            <section>
+                <form action="/SignUp/CreateSignUp" method="post">
+                    <h4>Meld jezelf aan bij ZMDH.</h4>
+                    <hr />
+                    <div class="form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="username">Gebruikersnaam:</label><span class="required"> *</span>
+                                <input class="form-control" id="username" name="UserName" placeholder="Gebruikersnaam" required />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="birthdate">Geboortedatum:</label><span class="required"> *</span>
+                                <input type="date" class="form-control" id="birthdate" name="BirthDate" required />
+                                <small class="d-block pt-1">Om u aan te melden bij ZMDH moet u minstens 16 jaar oud zijn.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label for="firstname">Voornaam:</label><span class="required"> *</span>
+                                <input class="form-control" id="firstname" name="FirstName" placeholder="Voornaam" required />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-5 col-md-3">
+                            <div class="form-group">
+                                <label for="infix">Tussenvoegsel:</label>
+                                <input class="form-control" id="infix" name="Infix" placeholder="Tussenvoegsel" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-7 col-md-5">
+                            <div class="form-group">
+                                <label for="lastname">Achternaam:</label><span class="required"> *</span>
+                                <input class="form-control" id="lastname" name="LastName" placeholder="Achternaam" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="email">E-mail:</label><span class="required"> *</span>
+                                <input type="email" class="form-control" id="email" name="Email" placeholder="E-mailadres" required />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="phone">Telefoonnummer:</label>
+                                <input type="tel" minlength="10" maxlength="10" class="form-control" id="phone" name="PhoneNumber" placeholder="Telefoonnummer" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="subject">Onderwerp:</label><span class="required"> *</span>
+                                <select onchange="subjectSelect(this.value)" class="custom-select" id="subject" name="Subject" required>
+                                    <option value="" selected>Kies een onderwerp</option>
+                                    @foreach (var subject in Model)
+                                    {
+                                        <option value="@subject.Name">@subject.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="ortho">Orthopedagoog:</label><span class="required"> *</span>
+                                <select class="custom-select" id="ortho" name="caregiver" required>
+                                    <option value="" selected>Kies een orthopedagoog</option>
+                                    @foreach (var ortho in UserManager.GetUsersInRoleAsync("Orthopedagoog").Result)
+                                    {
+                                        @foreach (var subject in Model)
+                                        {
+                                            @if (subject.Name == ortho.Subject)
+                                            {
+                                                <option data-option="@ortho.Subject" value="@ortho.Id">@ortho.FirstName @ortho.Infix @ortho.LastName</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Bericht:</label>
+                        <textarea rows="3" maxlength="100" class="form-control" id="message" name="Message"></textarea>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary lg-btn mt-3">Aanmelden</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ortho = document.getElementById("ortho");
+    var options = ortho.querySelectorAll("option");
+
+    function subjectSelect(value) {
+        ortho.innerHTML = "";
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].getAttribute("data-option") == value) {
+                ortho.appendChild(options[i]);
+            }
+        }
+    }
+
+    subjectSelect(document.getElementById("subject").value);
+</script>

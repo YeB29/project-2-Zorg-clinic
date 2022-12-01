@@ -1,0 +1,32 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+    {
+        Layout = (string)parentLayout;
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<div class="container profile pt-3">
+    <div class="row">
+        <div class="col">
+            <h2>Account beheer</h2>
+            <h4>Verander uw account gegevens</h4>
+            <hr />
+        </div>
+    </div>
+    <nav class="profile-nav">
+        <partial name="_ManageNav" />
+    </nav>
+    <div class="row profile-row pt-3 pb-3">
+        <div class="col">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+@RenderSection("Scripts", required: false)
+}

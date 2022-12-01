@@ -1,0 +1,169 @@
+@model Chat
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@{
+    ViewData["Title"] = Model.Name;
+}
+<div class="container chat-head pt-3">
+    <div class="row">
+        <div class="col">
+            <h2 class="chat-head">@ViewData["Title"]</h2>
+        </div>
+    </div>
+</div>
+<div class="container chat pt-3 pb-3">
+    <div class="row">
+        <div class="col messages">
+            @foreach (var message in Model.Messages)
+            {
+                @if (message.Name == UserManager.GetUserName(User))
+                {
+                    <div class="text-right">
+                        <header class="message-head">
+                            <strong class="user-color">@message.Name</strong>
+                            <span>@DateTime.Now.ToString("HH:mm")</span>
+                        </header>
+                        <p>@message.Text</p>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <header class="message-head">
+                            <strong>@message.Name</strong>
+                            <span>@DateTime.Now.ToString("HH:mm")</span>
+                            <span class="material-icons-round text-danger report">
+                                <form onsubmit="reportUser(event)" asp-controller="Report" asp-action="ReportUser" method="post">
+                                    <input type="hidden" name="chat" value="@Model.Id" />
+                                    <input type="hidden" name="name" value="@message.Name" />
+                                    <input type="hidden" name="text" value="@message.Text" />
+                                    <button type="submit">flag</button>
+                                </form>
+                            </span>
+                        </header>
+                        <p>@message.Text</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="message-row d-flex justify-content-center align-items-center">
+    <div class="container pt-3 pb-3">
+        <div class="row">
+            <div class="col">
+                <form onsubmit="sendMessage(event)" asp-controller="Chat" asp-action="CreateMessage" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <label for="text">Bericht:</label><span class="required"> *</span>
+                    <div class="form-row">
+                        <div class="col-12 col-md">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="text" name="text" placeholder="Bericht" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <div class="form-group text-center">
+                                <input type="submit" class="btn btn-primary message-btn" value="Bericht verzenden" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="../Shared/Modals/ReportUserModal" />
+
+@section Scripts {
+<script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+    var chat = document.querySelector('.chat');
+    chat.scrollTop = chat.scrollHeight;
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    var _connectionId = '';
+
+    connection.on("ReceiveMessage", function (data) {
+        var parsedTime = new Date(data.time).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
+        var message = document.createElement('div');
+        if (data.name == '@UserManager.GetUserName(User)') {
+            message.innerHTML = `
+                <div class="text-right">
+                    <header class="message-head">
+                        <strong class="user-color">${data.name}</strong>
+                        <span>${parsedTime}</span>
+                    </header>
+                    <p>${data.text}</p>
+                </div>
+            `;
+        } else {
+            message.innerHTML = `
+                <div>
+                    <header class="message-head">
+                        <strong>${data.name}</strong>
+                        <span>${parsedTime}</span>
+                        <span class="material-icons-round text-danger report">
+                            <a data-toggle="modal" data-target="#ReportUser">flag</a>
+                        </span>
+                    </header>
+                    <p>${data.text}</p>
+                </div>
+            `;
+        }
+        document.querySelector('.messages').appendChild(message);
+    });
+
+    var joinRoom = function () {
+        axios.post('/Chat/JoinRoom/' + _connectionId + '/@Model.Id', null)
+            .then(res => {
+                console.log("Zelfhulpgroep gejoind!", res);
+            }).catch(err => {
+                console.log("Error tijdens joinen zelfhulpgroep!", err);
+            });
+    };
+
+    connection.start()
+        .then(function () {
+            connection.invoke('getConnectionId')
+                .then(function (connectionId) {
+                    _connectionId = connectionId;
+                    joinRoom();
+                });
+        }).catch(function (err) {
+            console.log(err);
+        });
+
+    var sendMessage = function (event) {
+        event.preventDefault();
+        var data = new FormData(event.target);
+        if (data.get('text') == '') {
+            alert('Gelieve een bericht in te vullen!');
+            return;
+        } else {
+            document.getElementById('text').value = '';
+            axios.post('/Chat/SendMessage', data)
+                .then(res => {
+                    chat.scrollTop = chat.scrollHeight;
+                    console.log("Bericht verzonden!", res);
+                }).catch(err => {
+                    console.log("Error tijdens verzenden bericht!", err);
+                });
+        }
+    }
+
+    var reportUser = function (event) {
+        event.preventDefault();
+        var data = new FormData(event.target);
+        axios.post('/Report/ReportUser', data)
+            .then(res => {
+                $('#ReportUser').modal('show');
+                console.log("Gebruiker gerapporteerd!", res);
+            }).catch(err => {
+                console.log("Error tijdens rapporteren gebruiker!", err);
+            });
+    }
+</script>
+}

@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Aanmelden bij ZMDH!";
+}
+
+<div class="container page">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col">
+            <div class="row signup-row">
+                <div class="col signup-card d-flex justify-content-center align-items-center">
+                    <div class="row">
+                        <div class="col text-center">
+                            <h2 class="mb-3">Je eigen account</h2>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mb-3">
+                        <div class="col">
+                            <ul>
+                                <li>Je moet 16+ zijn.</li>
+                                <li>Je krijgt toegang tot zelfhulpgroepen met anderen van jouw leeftijd.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a class="nav-link btn btn-link btn-primary text-white d-flex align-items-center" asp-controller="SignUp" asp-action="Client">
+                                <span class="material-icons-round" aria-hidden="true">drive_file_rename_outline</span>Meld je aan!
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col signup-card d-flex justify-content-center align-items-center">
+                    <div class="row">
+                        <div class="col text-center">
+                            <h2 class="mb-3">Een account voor mijn kind</h2>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mb-3">
+                        <div class="col">
+                            <ul>
+                                <li>Je kind moet onder de 16 zijn.</li>
+                                <li>Je kind krijgt toegang tot zelfhulpgroepen met anderen van jouw leeftijd.</li>
+                                <li>U krijgt uw eigen ouder account waar u de chatfrequentie kan zien van uw kind.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a class="nav-link btn btn-link btn-primary text-white d-flex align-items-center" asp-controller="SignUp" asp-action="Child">
+                                <span class="material-icons-round" aria-hidden="true">drive_file_rename_outline</span>Meld je kind aan!
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

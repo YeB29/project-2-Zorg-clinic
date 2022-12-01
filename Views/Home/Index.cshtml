@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Home Pagina";
+}
+
+<div class="home-bg m-0" id="home-head">
+    <div class="row">
+        <div class="col head-card">
+            <img src="~/img/logo.svg" alt="ZMDH Logo">
+            <h1 class="text-center m-0">Zorgmaatschappij Den Haag</h1>
+        </div>
+    </div>
+    <div class="home-container">
+        <div class="row home-row">
+            <div class="col home-card d-flex justify-content-center align-items-center">
+                <h2 class="text-center mb-3">In het kort:</h2>
+                <p class="text-center">
+                    Wij helpen kinderen met ADD, faalangst, ASS, of die hoogbegaafd zijn.
+                    Daarbij hebben al onze medewerkers hun eigen specialisatie. Dan kunnen wij u of uw kind
+                    helpen met de hindernissen op het dagelijksleven bijvoorbeeld op school of sociaal gedrag.
+                </p>
+            </div>
+            <div class="col home-card d-flex justify-content-center align-items-center">
+                <h2 class="text-center mb-3">Hoe meld ik mijzelf aan?</h2>
+                <p class="text-center">
+                    U kunt uzelf of uw kind <a asp-controller="SignUp" aria-label="Aanmeld link">hier</a> aanmelden via deze website.
+                    Dan ziet u daar een formulier met de gegevens van uw kind, en kunt u een onderwerp kiezen
+                    (ADD, ASS, faalangst of hoogbegaafdheid). Zo zult u gekoppeld worden aan een
+                    <a asp-controller="About" aria-label="Over ons link">hulpverlener</a>. U zult dan een een email ontvangen van het opgegeven
+                    emailadres dat de afspraak is bevestigd. Later ontvangt u dan ook een email van de hulpverlener
+                    die u verder op de hoogte stellen.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="home-container home-banner">
+    <div class="row w-100 m-0">
+        <div class="col-sm-5 d-none d-sm-flex align-items-center justify-content-center pr-0">
+            <a class="btn btn-primary home-btn d-flex align-items-center" asp-controller="SignUp" asp-action="Index">
+                <span class="material-icons-round" aria-hidden="true">drive_file_rename_outline</span>Meld je aan!
+            </a>
+        </div>
+        <div class="col-12 col-sm-2 scroll-down d-flex align-items-center justify-content-center text-center p-0">
+            <a href="#home-body" aria-label="Scroll naar benenden op de pagina">Lees meer<span class="material-icons-round">expand_more</span></a>
+        </div>
+        <div class="col-sm-5 d-none d-sm-flex align-items-center justify-content-center pl-0">
+            <a class="btn btn-primary home-btn d-flex align-items-center" asp-controller="Info" asp-action="Index">
+                <span class="material-icons-round" aria-hidden="true">info</span>Meer informatie
+            </a>
+        </div>
+    </div>
+</div>
+<div class="home-container">
+    <div class="row mb-0" id="home-body">
+        <div class="home-text-col col-12 col-lg-6 d-flex align-items-center justify-content-center flex-column">
+            <h2 class="text-center mb-3">ZMDH wat doen wij nou eigenlijk?</h2>
+            <p class="text-center">
+                Wij helpen kinderen/jongeren met hun “problemen” en onze missie is dan ook dat iedere patiënt met
+                zijn/haar problemen goed geholpen wordt. Dat doen wij door goede pedagogen in onze praktijk in dienst
+                te nemen en deze regelmatig bij te scholen d.m.v. cursussen. De visie van het bedrijf is om te groeien
+                tot de grootste en de beste praktijk van de regio haaglanden.
+            </p>
+        </div>
+        <div class="d-none d-lg-flex col-lg-6 align-items-center justify-content-center p-0">
+            <img class="w-100" src="~/img/vrouwtekeningkind.png" alt="Foto van vrouw en kind die lachen">
+        </div>
+    </div>
+    <div class="row home-body-bottom mt-0">
+        <div class="d-none d-lg-flex col-lg-6 align-items-center justify-content-center p-0">
+            <img class="w-100" src="~/img/meisjepraat.jpg" alt="Foto van meisje die praat met hulpverlener">
+        </div>
+        <div class="home-text-col col-12 col-lg-6 d-flex align-items-center justify-content-center flex-column">
+            <h2 class="text-center mb-3">Informatieve websites:</h2>
+            <ul>
+                <li>
+                    Op <a href="https://www.adhd-nederland.nl/" target="_blank"> ADHD Centrum Nederland</a> kunt u veel
+                    informatie vinden over wat ADHD precies is en wordt er uitgelegd hoe u er mee om zou kunnen gaan.
+                </li>
+                <li>
+                    Op <a href="https://www.autisme.nl/" target="_blank">Autisme.nl</a> kunt u nieuws, informatie en
+                    ervaringen van andere personen vinden over autisme.
+                </li>
+                <li>
+                    Op <a href="https://www.faalangst.nl/" target="_blank">Faalangst.nl</a> vind u veel informatie en filmpjes over
+                    faalangst gespecificeerd in verschillende onderdelen van faalangst.
+                </li>
+                <li>
+                    Op <a href="https://www.lich.nl/" target="_blank">Lich.nl</a> staat er veel informatie en weetjes over hoogbegaafdheid
+                    onderverdeeld in verschillende situaties.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

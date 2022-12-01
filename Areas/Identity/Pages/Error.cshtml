@@ -1,0 +1,23 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Fout.</h1>
+<h2 class="text-danger">Er is een fout opgetreden bij het verwerken van uw verzoek.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Verzoek ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<h3>Ontwikkelmodus</h3>
+<p>
+    Wisselen naar de <strong>ontwikkeling</strong> omgeving zal meer gedetailleerde informatie weergeven over de fout die is opgetreden.
+</p>
+<p>
+    <strong>De ontwikkeling omgeving mag niet zijn ingeschakeld in geïmplementeerde applicaties</strong>, omdat dit ertoe kan leiden dat gevoelige informatie van uitzonderingen wordt weergegeven aan eindgebruikers. Voor lokale foutopsporing kan de ontwikkelomgeving worden ingeschakeld door de <strong>ASPNETCORE_OMGEVING</strong> omgevingsvariabele om <strong>Ontwikkeling</strong>, en de applicatie opnieuw te starten.
+</p>

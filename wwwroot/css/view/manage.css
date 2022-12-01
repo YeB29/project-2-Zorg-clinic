@@ -1,0 +1,37 @@
+/* Manage */
+.manage th {
+  padding: .25rem .5rem;
+  vertical-align: middle;
+}
+
+.manage td {
+  padding: .25rem .5rem;
+  vertical-align: middle;
+}
+
+.manage td .btn {
+  color: #FFF;
+}
+
+.manage input {
+  border-radius: .25rem !important;
+}
+
+.manage table {
+  border: none;
+}
+
+.manage .manage-sort a {
+  display: flex;
+}
+
+.manage .manage-sort a, .manage .manage-options a {
+  color: #000;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 575.98px) {
+  .manage .message-btn {
+    width: 100%;
+  }
+}
